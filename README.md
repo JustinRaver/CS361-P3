@@ -1,4 +1,4 @@
-# Project 3: Nondeterministic Finite Automata
+# Project 3: Regular Expressions
 
 * Author: Justin Raver, Nick Stolarow
 * Class: CS361 Section 1
