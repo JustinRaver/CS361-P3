@@ -41,7 +41,7 @@ public class RE implements REInterface {
     /**
      * Combines two existing Nfas into one
      * @param main First NFA created
-     * @param secondary Secon NFA created
+     * @param secondary Second NFA created
      * @return The combined NFA
      */
     public NFA combination(NFA main, NFA secondary) {
@@ -182,8 +182,8 @@ public class RE implements REInterface {
     }
 
     /**
-     * Returns the next character in the string without altering it
-     * @return
+     *
+     * @return the next character in the string without altering it
      */
     private char peek() {
         return regex.charAt(0);
