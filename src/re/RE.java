@@ -11,10 +11,14 @@ import fa.nfa.NFAState;
 public class RE implements REInterface {
     //instance variables
     private String regex;
+    private int stateCount;
+    private int comboCount;
 
 
     public RE(String regex) {
         this.regex = regex;
+        this.stateCount = 1;
+        this.comboCount = 1;
     }
 
     @Override
@@ -22,57 +26,119 @@ public class RE implements REInterface {
         //Take the first term from the nfa
         NFA nfaTerm = getNfaTerm();
         //check for the or
-        if (!parsed() && peek() == '|') {
+        if (notParsed() && peek() == '|') {
             consume('|');
             NFA nfa = getNFA();
-            return combine(nfaTerm,nfa);
+            return combination(nfaTerm, nfa);
         }
         return nfaTerm;
     }
 
-    public NFA combine(NFA main, NFA secondary){
-        for (Character c:secondary.getABC()) {
-            State other = null;
-            for(State state: main.getStates()){
-                if(!state.equals(main.getStartState())){
-                    other = state;
-                    break;
-                }
-            }
-            main.addTransition(main.getStartState().toString(),c,other.toString());
-        }
-        return main;
+    public NFA combination(NFA main, NFA secondary) {
+        //Create a new nfa
+        NFA ret = new NFA();
+        //add a start state to the nfa
+        ret.addStartState("cs" + comboCount);
+        comboCount++;
+        //add the states from the previous NFA's
+        ret.addNFAStates(main.getStates());
+        ret.addAbc(main.getABC());
+        ret.addNFAStates(secondary.getStates());
+        ret.addAbc(secondary.getABC());
+
+        //Now add empty transitions from the new nfas start to the two nfas starting states
+        ret.addTransition(ret.getStartState().toString(), 'e', main.getStartState().toString());
+        ret.addTransition(ret.getStartState().toString(), 'e', secondary.getStartState().toString());
+
+        System.out.println("COMBINATION:");
+        System.out.println(ret);
+        return ret;
     }
 
     public NFA getNfaTerm() {
-        NFA nfaFactor = null;
+        NFA nfaFactor = new NFA();
 
-        while (!parsed() && peek() != ')' && peek() != '|') {
+        while (notParsed() && peek() != ')' && peek() != '|') {
             NFA nextNfaFactor = getNfaFactor();
-            nfaFactor = null; //dont know what to do here
+            nfaFactor = sequence(nfaFactor, nextNfaFactor);
+        }
+        return nfaFactor;
+    }
+
+    public NFA sequence(NFA main, NFA secondary) {
+        if (main.getStates().isEmpty()) {
+            return secondary;
         }
 
-        return nfaFactor;
+        //Add the states and alphabet from second to main
+        main.addNFAStates(secondary.getStates());
+        main.addAbc(secondary.getABC());
+
+        //connect the final states of main to the start state of second via empty transition
+        for (State s : main.getFinalStates()) {
+                main.addTransition(s.toString(), 'e', secondary.getStartState().toString());
+                if(!secondary.getFinalStates().contains(s)){
+                    NFAState state = (NFAState) s;
+                    state.setNonFinal();
+                }
+        }
+
+
+        System.out.println("SEQUENCE:");
+        System.out.println(main);
+        return main;
     }
 
     public NFA getNfaFactor() {
         NFA baseNfa = getNfaBase();
 
-        while (!parsed() && peek() == '*') {
+        while (notParsed() && peek() == '*') {
             consume('*');
-            baseNfa = null; //not sure what to do here
+            baseNfa = repetition(baseNfa);
         }
         return baseNfa;
     }
 
-    public NFA getNfaBase(){
-        if (peek() == '('){
+    public NFA repetition(NFA main) {
+        String stateName = "f"+stateCount;
+        stateCount++;
+        //add new final state
+        main.addFinalState(stateName);
+        //for each final state add an empty transition to start state of the nfa to represent the possible repetition
+        for (State s : main.getFinalStates()) {
+            if(!s.toString().equals(stateName)) {
+                main.addTransition(s.toString(), 'e', main.getStartState().toString());
+                main.addTransition(s.toString(), 'e', stateName);
+            }
+        }
+        main.addTransition(main.getStartState().toString(), 'e', stateName);
+
+        System.out.println("REPETITION:");
+        System.out.println(main);
+        return main;
+    }
+
+    public NFA getNfaBase() {
+        //if there is a '(' then recursively call getNFA
+        if (peek() == '(') {
             consume('(');
             NFA nfa = getNFA();
             consume(')');
             return nfa;
         }
-        return null; //this is the case theres only a single character
+
+        NFA nfa = new NFA();
+
+        nfa.addStartState("s" + stateCount);
+        nfa.addFinalState("f" + stateCount);
+        nfa.addTransition("s" + stateCount, next(), "f" + stateCount);
+
+        //increment the count
+        stateCount++;
+
+        System.out.println("BASE:");
+        System.out.println(nfa);
+        return nfa;
     }
 
     private char peek() {
@@ -93,8 +159,8 @@ public class RE implements REInterface {
         return c;
     }
 
-    private boolean parsed() {
-        return regex.length() <= 0;
+    private boolean notParsed() {
+        return regex.length() > 0;
     }
 
 
