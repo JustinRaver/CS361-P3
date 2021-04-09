@@ -66,7 +66,14 @@ public class RE implements REInterface {
     }
 
     public NFA sequence(NFA main, NFA secondary) {
+        if(!main.getStates().isEmpty()) {
+            System.out.println("Sequence Main: \n" + main + "\n Main Final States: "+main.getFinalStates()+ "\n");
+        }
+        System.out.println("Sequence Secondary: \n"+secondary+ "\n Secondary Final States: "+secondary.getFinalStates()+ "\n");
+
+        //Check if main has any states
         if (main.getStates().isEmpty()) {
+            //if not then return secondary
             return secondary;
         }
 
@@ -76,8 +83,10 @@ public class RE implements REInterface {
 
         //connect the final states of main to the start state of second via empty transition
         for (State s : main.getFinalStates()) {
-                main.addTransition(s.toString(), 'e', secondary.getStartState().toString());
+                //remove final states from main
                 if(!secondary.getFinalStates().contains(s)){
+                    main.addTransition(s.toString(), 'e', secondary.getStartState().toString());
+
                     NFAState state = (NFAState) s;
                     state.setNonFinal();
                 }
@@ -100,18 +109,10 @@ public class RE implements REInterface {
     }
 
     public NFA repetition(NFA main) {
-        String stateName = "f"+stateCount;
-        stateCount++;
-        //add new final state
-        main.addFinalState(stateName);
-        //for each final state add an empty transition to start state of the nfa to represent the possible repetition
         for (State s : main.getFinalStates()) {
-            if(!s.toString().equals(stateName)) {
-                main.addTransition(s.toString(), 'e', main.getStartState().toString());
-                main.addTransition(s.toString(), 'e', stateName);
-            }
+            main.addTransition(s.toString(), 'e', main.getStartState().toString());
+            main.addTransition(main.getStartState().toString(), 'e', s.toString());
         }
-        main.addTransition(main.getStartState().toString(), 'e', stateName);
 
         System.out.println("REPETITION:");
         System.out.println(main);
