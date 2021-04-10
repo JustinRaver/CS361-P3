@@ -1,0 +1,126 @@
+Test 1:
+
+yes
+yes
+yes
+yes
+no
+no
+
+Test 2:
+
+yes
+yes
+yes
+yes
+no
+no
+
+Test 3:
+
+yes
+yes
+yes
+no
+no
+no
+
+Test 4:
+
+yes
+yes
+yes
+yes
+yes
+no
+no
+
+Test 5:
+
+yes
+yes
+yes
+yes
+yes
+yes
+no
+
+Test 6:
+
+yes
+yes
+yes
+yes
+no
+no
+
+Test 7:
+
+yes
+yes
+yes
+yes
+yes
+yes
+yes
+yes
+yes
+
+Test 8:
+
+yes
+yes
+yes
+yes
+no
+
+Test 9:
+
+yes
+yes
+yes
+yes
+no
+
+Test 10:
+
+yes
+yes
+yes
+yes
+yes
+yes
+no
+
+Test 11:
+
+yes
+yes
+yes
+yes
+yes
+yes
+no
+
+Test 12:
+
+yes
+yes
+yes
+yes
+yes
+yes
+no
+
+Test 13:
+
+yes
+yes
+yes
+yes
+yes
+no
+no
+yes
+yes
+no
