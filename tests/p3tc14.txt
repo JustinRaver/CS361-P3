@@ -1,0 +1,9 @@
+(aa|bb)*a
+aaaa
+aaa
+aaaabba
+aba
+bba
+a
+b
+bbb

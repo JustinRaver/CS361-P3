@@ -1,0 +1,8 @@
+(ab)*bb*
+abb
+abbb
+aba
+bba
+a
+b
+bbb

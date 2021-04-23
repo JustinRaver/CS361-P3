@@ -124,3 +124,56 @@ no
 yes
 yes
 no
+
+Test 14:
+no
+yes
+yes
+no
+yes
+yes
+no
+no
+
+Test 15:
+
+yes
+yes
+no
+no
+no
+yes
+yes
+
+Test 16:
+
+yes
+yes
+yes
+yes
+yes
+no
+no
+
+Test 17:
+
+yes
+yes
+yes
+no
+yes
+no
+no
+no
+
+Test 18:
+
+yes
+yes
+no
+yes
+yes
+yes
+no
+no
+yes

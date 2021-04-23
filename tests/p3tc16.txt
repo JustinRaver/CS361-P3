@@ -1,0 +1,8 @@
+(a*|ab)|ba*
+e
+a
+ba
+b
+aaa
+bb
+bbb
