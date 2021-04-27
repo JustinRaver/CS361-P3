@@ -14,9 +14,9 @@ if the string is accepted and "no" if the string is rejected by the DFA.
 
 ```
  
- Build: javac re/REDriver.java
+ Build: javac -cp ".:./CS361FA.jar" re/REDriver.java
  
- Run: java re.REDriver ./tests/<test name>
+ Run: java -cp ".:./CS361FA.jar" re.REDriver ./tests/<test_name>
  
 ```
 
