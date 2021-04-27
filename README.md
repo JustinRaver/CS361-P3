@@ -12,18 +12,13 @@ if the string is accepted and "no" if the string is rejected by the DFA.
 
 ## Compiling and Using
 
-To compile, execute the following command in the main project directory:
 ```
-$ javac Marshmallow.java
+ 
+ Build: javac re/REDriver.java
+ 
+ Run: java re.REDriver ./tests/<test name>
+ 
 ```
-
-Run the compiled class with the command:
-```
-$ java Marshmallow
-```
-
-You will be prompted for integer values representing distance to the fire,
-fire intensity, marshmallow burn resistance, and marshmallow sugar density.
 
 ## Discussion
 
