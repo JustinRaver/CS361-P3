@@ -60,8 +60,6 @@ public class RE implements REInterface {
         ret.addTransition(ret.getStartState().toString(), 'e', main.getStartState().toString());
         ret.addTransition(ret.getStartState().toString(), 'e', secondary.getStartState().toString());
 
-        System.out.println("COMBINATION:");
-        System.out.println(ret);
         return ret;
     }
 
@@ -111,8 +109,6 @@ public class RE implements REInterface {
                     state.setNonFinal();
                 }
         }
-        System.out.println("SEQUENCE:");
-        System.out.println(main);
 
         return main;
     }
@@ -147,8 +143,6 @@ public class RE implements REInterface {
             main.addTransition(main.getStartState().toString(), 'e', s.toString());
         }
 
-        System.out.println("REPETITION:");
-        System.out.println(main);
         return main;
     }
 
@@ -176,8 +170,6 @@ public class RE implements REInterface {
         //increment the count
         stateCount++;
 
-        System.out.println("BASE:");
-        System.out.println(nfa);
         return nfa;
     }
 
